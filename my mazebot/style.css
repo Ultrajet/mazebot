@@ -1,0 +1,77 @@
+/* variables */
+
+:root {
+    --main-size: 10px;
+    --main-display: inline-block;
+}
+
+/* éléments de l'accueil */
+
+button {
+    margin: 0 auto;
+    display: block;
+}
+
+p {
+    text-align: center;
+}
+
+/* container du json */
+
+.code {
+    height: 40vh;
+    border: 1px solid black;
+    overflow: auto;
+}
+
+/* centrer le container du maze */
+
+.flex {
+    display: flex;
+}
+
+/* container du maze */
+
+.container {
+    user-select: none;
+    display: inline-block;
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+/* pas d'espace entre les lignes du maze + flex pour optimiser */
+
+.container .ligne {
+    margin: 0;
+    display: flex;
+}
+
+/* blocs du maze */
+
+.bloc {
+    height: var(--main-size);
+    width: var(--main-size);
+    background: black;
+    display: var(--main-display);
+}
+
+.depart {
+    height: var(--main-size);
+    width: var(--main-size);
+    background: green;
+    display: var(--main-display);
+}
+
+.arrivee {
+    height: var(--main-size);
+    width: var(--main-size);
+    background: red;
+    display: var(--main-display);
+}
+
+.chemin {
+    height: var(--main-size);
+    width: var(--main-size);
+    background: white;
+    display: var(--main-display);
+}
