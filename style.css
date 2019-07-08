@@ -2,7 +2,6 @@
 
 :root {
     --main-size: 10px;
-    --main-display: inline-block;
 }
 
 /* éléments de l'accueil */
@@ -52,26 +51,34 @@ p {
     height: var(--main-size);
     width: var(--main-size);
     background: black;
-    display: var(--main-display);
 }
+
+/* clignotement de .depart
+
+@keyframes blinkingDepart {
+    0% { background: green }
+    50% { background: transparent }
+    100% { background: green }
+}
+
+*/
 
 .depart {
     height: var(--main-size);
     width: var(--main-size);
+    position: relative;
     background: green;
-    display: var(--main-display);
+    /* animation: blinkingDepart 1s infinite; */
 }
 
 .arrivee {
     height: var(--main-size);
     width: var(--main-size);
     background: red;
-    display: var(--main-display);
 }
 
 .chemin {
     height: var(--main-size);
     width: var(--main-size);
     background: white;
-    display: var(--main-display);
 }

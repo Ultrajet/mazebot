@@ -1,7 +1,10 @@
 // constantes qui simplifient l'appel aux balises dans l'HTML
 
-const pre = document.querySelector("pre");
-const container = document.querySelector(".container");
+const pre = document.querySelector("pre")
+const container = document.querySelector(".container")
+const depart = document.querySelector(".depart")
+let posX = 0
+let posY = 0
 
 function chargerMap() {
 
@@ -49,3 +52,33 @@ function afficherMap(data) {
 
 // chargement d'une première map à l'initialisation de la page
 chargerMap()
+
+// on écoute les touches directionnelles
+document.addEventListener("keydown", e => {
+    let depart = document.querySelector(".depart")
+
+    switch (e.key) {
+        case "ArrowLeft":
+            posX -= 10;
+            depart.style.left = posX + "px";
+            break;
+
+        case "ArrowUp":
+            posY -= 10;
+            depart.style.top = posY + "px";
+            break;
+
+        case "ArrowRight":
+            posX += 10;
+            depart.style.left = posX + "px";
+            break;
+
+        case "ArrowDown":
+            posY += 10;
+            depart.style.top = posY + "px";
+            break;
+
+        default: return;
+    }
+    e.preventDefault();
+});
