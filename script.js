@@ -1,10 +1,18 @@
 // constantes qui simplifient l'appel aux balises dans l'HTML
 
-const pre = document.querySelector("pre")
-const container = document.querySelector(".container")
-const depart = document.querySelector(".depart")
-let posX = 0
-let posY = 0
+const pre = document.querySelector("pre");
+let theMap = {};
+let thePlayer = [];
+let theEnd = [];
+const container = document.querySelector(".container");
+const depart = document.querySelector(".depart");
+let posX = 0;
+let posY = 0;
+
+
+// ----------------------
+// AVANT INIT
+// ----------------------
 
 function chargerMap() {
 
@@ -16,12 +24,23 @@ function chargerMap() {
     fetch("https://api.noopschallenge.com/mazebot/random")
         .then(response => { return response.json() })
         .then(data => {
-            pre.innerHTML = "";
-            container.innerHTML = "";
-            pre.innerHTML = JSON.stringify(data, null, '\t');
+            posX = 0;
+            posY = 0;
+            theMap = data.map;
+            thePlayer = data.startingPosition;
+            theEnd = data.endingPosition;
+            manipulerMap();
+            remplirPre(data);
             afficherMap(data);
-        })
-}
+        });
+
+};
+
+function remplirPre(data) {
+    pre.innerHTML = "";
+    container.innerHTML = "";
+    pre.innerHTML = JSON.stringify(data, null, '\t');
+};
 
 function afficherMap(data) {
 
@@ -43,42 +62,101 @@ function afficherMap(data) {
             }
             else {
                 return "<span class=\"chemin\"></span>"
-            }
+            };
         });
         return "<div class=\"ligne\">" + ligne.join("") + '</div>';
     });
+
     container.innerHTML = map.join("");
-}
 
-// chargement d'une première map à l'initialisation de la page
-chargerMap()
+};
 
-// on écoute les touches directionnelles
-document.addEventListener("keydown", e => {
-    let depart = document.querySelector(".depart")
+function manipulerMap(direction = "none") {
 
-    switch (e.key) {
-        case "ArrowLeft":
-            posX -= 10;
-            depart.style.left = posX + "px";
+    // la map en JSON dans laquel le joueur évolue, qui sera ensuite affichée avec afficherMap()
+    // chaque mouvement du joueur entraîne un recalcul de la variable thePlayer
+    // thePlayer est ensuite "inscrustré" à sa nouvelle coordonnée dans theMap
+    // TODO : effacer les traces derrière, c'est-à-dire garder en mémoire la tile sur laquelle se trouver thePlayer, pour pouvoir ensuite la "réincruster"
+
+    switch (direction) {
+        case "none":
+            console.log("none");
             break;
 
-        case "ArrowUp":
-            posY -= 10;
-            depart.style.top = posY + "px";
+        case "left":
+            thePlayer[0] = thePlayer[0] - 1;
+            theMap[thePlayer[1]][thePlayer[0]] = "A";
             break;
 
-        case "ArrowRight":
-            posX += 10;
-            depart.style.left = posX + "px";
+        case "up":
+            thePlayer[1] = thePlayer[1] - 1;
+            theMap[thePlayer[1]][thePlayer[0]] = "A";
             break;
 
-        case "ArrowDown":
-            posY += 10;
-            depart.style.top = posY + "px";
+        case "right":
+            thePlayer[0] = thePlayer[1] + 1;
+            theMap[thePlayer[1]][thePlayer[0]] = "A";
+            break;
+
+        case "down":
+            thePlayer[1] = thePlayer[1] + 1;
+            theMap[thePlayer[1]][thePlayer[0]] = "A";
             break;
 
         default: return;
     }
-    e.preventDefault();
+
+    console.log(theMap);
+
+    // for (i = 0; i < theMap.length; i++) {
+    //     console.log("ligne " + i + ": " + theMap[i]);
+    // };
+
+};
+
+// chargement d'une première map à l'initialisation de la page
+chargerMap();
+
+// ----------------------
+// APRÈS INIT
+// ----------------------
+
+document.addEventListener("keydown", e => {
+
+    // on écoute les touches directionnelles
+    // celles-ci affectent la map au format JSON (theMap) avec la fonction manipulerMap()
+
+    let depart = document.querySelector(".depart");
+
+    switch (e.key) {
+        case "ArrowLeft":
+            e.preventDefault();
+            posX -= 10;
+            depart.style.left = posX + "px";
+            manipulerMap("left");
+            break;
+
+        case "ArrowUp":
+            e.preventDefault();
+            posY -= 10;
+            depart.style.top = posY + "px";
+            manipulerMap("up");
+            break;
+
+        case "ArrowRight":
+            e.preventDefault();
+            posX += 10;
+            depart.style.left = posX + "px";
+            manipulerMap("right");
+            break;
+
+        case "ArrowDown":
+            e.preventDefault();
+            posY += 10;
+            depart.style.top = posY + "px";
+            manipulerMap("down");
+            break;
+
+        default: return;
+    };
 });
