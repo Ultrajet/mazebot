@@ -1,14 +1,15 @@
 // constantes qui simplifient l'appel aux balises dans l'HTML
 
 const pre = document.querySelector("pre");
+const container = document.querySelector(".container");
+const depart = document.querySelector(".depart");
+
+// variables de gameplay
 let theMap = {};
 let thePlayer = [];
 let theEnd = [];
-const container = document.querySelector(".container");
-const depart = document.querySelector(".depart");
 let posX = 0;
 let posY = 0;
-
 
 // ----------------------
 // AVANT INIT
@@ -21,7 +22,7 @@ function chargerMap() {
     // on met le contenu du json dans le <pre>, en "brut"
     // puis on lance la fonction pour afficher la map
 
-    fetch("https://api.noopschallenge.com/mazebot/random")
+    fetch("https://api.noopschallenge.com/mazebot/random?minSize=20&maxSize=20")
         .then(response => { return response.json() })
         .then(data => {
             posX = 0;
