@@ -1,5 +1,4 @@
 // constantes qui simplifient l'appel aux balises dans l'HTML
-
 const pre = document.querySelector("pre");
 const container = document.querySelector(".container");
 const depart = document.querySelector(".depart");
@@ -21,7 +20,6 @@ function chargerMap() {
     // on reset le <pre> et le .container
     // on met le contenu du json dans le <pre>, en "brut"
     // puis on lance la fonction pour afficher la map
-
     fetch("https://api.noopschallenge.com/mazebot/random?minSize=20&maxSize=20")
         .then(response => { return response.json() })
         .then(data => {
@@ -49,7 +47,6 @@ function afficherMap(data) {
     // chaque lettre rencontrée renvoie un return à sa ligne, d'une certaine couleur selon la condition
     // chaque ligne renvoie un return à la map
     // on insère finalement la map dans .container
-
     let map = data.map.map(data => {
         let ligne = data.map(lettre => {
             if (lettre == "X") {
@@ -78,7 +75,6 @@ function manipulerMap(direction = "none") {
     // chaque mouvement du joueur entraîne un recalcul de la variable thePlayer
     // thePlayer est ensuite "inscrustré" à sa nouvelle coordonnée dans theMap
     // TODO : effacer les traces derrière, c'est-à-dire garder en mémoire la tile sur laquelle se trouver thePlayer, pour pouvoir ensuite la "réincruster"
-
     switch (direction) {
         case "none":
             console.log("none");
@@ -115,18 +111,17 @@ function manipulerMap(direction = "none") {
 
 };
 
-// chargement d'une première map à l'initialisation de la page
-chargerMap();
-
 // ----------------------
 // APRÈS INIT
 // ----------------------
+
+// chargement d'une première map à l'initialisation de la page
+chargerMap();
 
 document.addEventListener("keydown", e => {
 
     // on écoute les touches directionnelles
     // celles-ci affectent la map au format JSON (theMap) avec la fonction manipulerMap()
-
     let depart = document.querySelector(".depart");
 
     switch (e.key) {

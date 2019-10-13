@@ -6,6 +6,10 @@
 
 /* éléments de l'accueil */
 
+body {
+    font-family: Helvetica, sans-serif;
+}
+
 button {
     margin: 0 auto;
     display: block;
